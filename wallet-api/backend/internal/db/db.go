@@ -44,5 +44,20 @@ func InitDB() error {
 		return fmt.Errorf("failed ot create users table: %w", err)
 	}
 
+
+	_, err = DB.Exec(`
+		CREATE TABLE IF NOT EXISTS wallets (
+			id SERIAL PRIMARY KEY,
+			user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+			balance NUMERIC NOT NULL,
+			currency TEXT NOT NULL,
+			created_at TIMESTAMP NOT NULL
+		);
+	`)
+
+	if err != nil {
+		return fmt.Errorf("failed to create wallets table: %w", err)
+	}
+
 	return nil
 }

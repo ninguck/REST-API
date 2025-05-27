@@ -1,13 +1,15 @@
-package test
+package tests
 
 import (
 	"testing"
-	"os"
+	"fmt"
+	"time"
+	//"os"
 	"github.com/ninguck/wallet-api/internal/db"
 	"github.com/ninguck/wallet-api/internal/models"
 )
 
-func setupDB(t *testing.T) {
+/*func setupDB(t *testing.T) {
 	os.Setenv("DB_USER", "wallet_user")
 	os.Setenv("DB_PASSWORD", "wallet_pass")
 	os.Setenv("DB_NAME", "wallet_db")
@@ -17,7 +19,7 @@ func setupDB(t *testing.T) {
 	if err := db.InitDB(); err != nil {
 		t.Fatalf("Failed to connect to DB: %v", err)
 	}
-}
+}*/
 
 func TestCreateAndFetchUser(t *testing.T) {
 	setupDB(t)
@@ -25,7 +27,7 @@ func TestCreateAndFetchUser(t *testing.T) {
 	//Arrange
 	user := models.User {
 		Name: "Nicholas",
-		Email: "nicholas@example.com",
+		Email: fmt.Sprintf("nicholas+%d@example.com", time.Now().UnixNano()),
 	}
 
 	//Act
