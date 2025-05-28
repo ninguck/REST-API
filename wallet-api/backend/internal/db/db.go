@@ -59,5 +59,17 @@ func InitDB() error {
 		return fmt.Errorf("failed to create wallets table: %w", err)
 	}
 
+	_, err = DB.Exec(`
+	CREATE TABLE IF NOT EXISTS transactions (
+		id SERIAL PRIMARY KEY,
+		wallet_id INT NOT NULL REFERENCES wallets(id),
+		amount NUMERIC NOT NULL,
+		type TEXT CHECK (type IN ('credit', 'debit')) NOT NULL,
+		created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	);`)
+	if err != nil {
+		return fmt.Errorf("failed to create transactions table: %w", err)
+	}
+
 	return nil
 }
